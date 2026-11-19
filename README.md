@@ -14,8 +14,8 @@ Aplikasi mobile Flutter untuk mengelola daftar menu kafe menggunakan arsitektur 
 - Filter kategori menggunakan **ChoiceChip** (Semua / Makanan / Minuman / Snack).
 - **AppBar** menampilkan jumlah menu tersedia secara reaktif, mis. `Menu (8/10)`.
 
-## Screenshot
-*(Tambahkan screenshot halaman daftar, form tambah/edit, dan dialog hapus di sini)*
+## Link Video Penjelasan
+https://youtu.be/cBB3rzwqQNM
 
 ## Cara Menjalankan
 ```bash
