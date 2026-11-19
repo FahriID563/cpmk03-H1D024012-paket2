@@ -5,6 +5,6 @@ import '../controllers/menu_controller.dart';
 class MenuBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<MenuKafeController>(() => MenuKafeController());
+    Get.lazyPut<MenuKafeController>(() => MenuKafeController(), fenix: true);
   }
 }

@@ -93,20 +93,27 @@ class MenuKafeController extends GetxController {
     hargaC.text = menu.harga.toStringAsFixed(0);
     deskripsiC.text = menu.deskripsi;
     stokPorsiC.text = menu.stokPorsi.toString();
-    selectedKategoriForm.value = menu.kategori;
+    selectedKategoriForm.value = daftarKategori.contains(menu.kategori)
+        ? menu.kategori
+        : daftarKategori.first;
     tersediaForm.value = menu.tersedia;
     Get.toNamed(AppRoutes.form);
   }
 
+  bool _isSaving = false;
+
   // ================= CREATE & UPDATE =================
   Future<void> save() async {
-    if (!formKey.currentState!.validate()) return;
+    if (_isSaving) return;
+    if (formKey.currentState?.validate() == false) return;
 
     final nama = namaC.text.trim();
 
     // Aturan Paket 2: nama menu harus unik
     final namaSudahAda = menuList.any(
-      (m) => m.nama.toLowerCase() == nama.toLowerCase() && m.id != editingId,
+      (m) =>
+          m.nama.trim().toLowerCase() == nama.toLowerCase() &&
+          m.id != editingId,
     );
     if (namaSudahAda) {
       Get.snackbar(
@@ -117,27 +124,32 @@ class MenuKafeController extends GetxController {
       return;
     }
 
-    final menu = Menu(
-      id: editingId ?? DateTime.now().millisecondsSinceEpoch.toString(),
-      nama: nama,
-      kategori: selectedKategoriForm.value,
-      harga: double.parse(hargaC.text.trim()),
-      deskripsi: deskripsiC.text.trim(),
-      stokPorsi: int.parse(stokPorsiC.text.trim()),
-      tersedia: tersediaForm.value,
-    );
+    _isSaving = true;
+    try {
+      final menu = Menu(
+        id: editingId ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        nama: nama,
+        kategori: selectedKategoriForm.value,
+        harga: double.tryParse(hargaC.text.trim()) ?? 0.0,
+        deskripsi: deskripsiC.text.trim(),
+        stokPorsi: int.tryParse(stokPorsiC.text.trim()) ?? 0,
+        tersedia: tersediaForm.value,
+      );
 
-    if (isEdit) {
-      await _service.update(menu);
-    } else {
-      await _service.create(menu);
+      if (isEdit) {
+        await _service.update(menu);
+      } else {
+        await _service.create(menu);
+      }
+
+      final pesan =
+          isEdit ? 'Menu berhasil diperbarui' : 'Menu berhasil ditambahkan';
+      loadData();
+      tutup();
+      Get.snackbar('Sukses', pesan, snackPosition: SnackPosition.BOTTOM);
+    } finally {
+      _isSaving = false;
     }
-
-    final pesan =
-        isEdit ? 'Menu berhasil diperbarui' : 'Menu berhasil ditambahkan';
-    loadData();
-    tutup();
-    Get.snackbar('Sukses', pesan, snackPosition: SnackPosition.BOTTOM);
   }
 
   // ================= FITUR KHUSUS: TOGGLE TERSEDIA =================
@@ -179,7 +191,13 @@ class MenuKafeController extends GetxController {
 
   // ================= HELPER NAVIGASI & FORMAT =================
   /// Menutup halaman/dialog paling atas tanpa terhalang snackbar (GetX 4.x).
-  void tutup<T>([T? result]) => Get.key.currentState?.pop<T>(result);
+  void tutup<T>([T? result]) {
+    if (Get.key.currentState?.canPop() ?? false) {
+      Get.key.currentState?.pop<T>(result);
+    } else {
+      Get.back<T>(result: result);
+    }
+  }
 
   /// Mengubah angka double menjadi format Rupiah, mis. 15000 -> "Rp 15.000".
   String formatRupiah(double nilai) {
