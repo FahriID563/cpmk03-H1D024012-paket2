@@ -1,17 +1,24 @@
-# cpmk03_menu_kafe
+# Aplikasi Menu Kafe (CPMK 03 - Paket 2)
 
-A new Flutter project.
+- **Nama**: Mhd Fahri Irfandi Dewantara
+- **NIM**: H1D024012
+- **Paket**: Paket 2 — Menu Kafe
 
-## Getting Started
+## Deskripsi Aplikasi
+Aplikasi mobile Flutter untuk mengelola daftar menu kafe menggunakan arsitektur **MVC**, state management & routing **GetX**, serta penyimpanan lokal offline **Hive**.
 
-This project is a starting point for a Flutter application.
+### Fitur Utama & Khusus Paket 2
+- CRUD lengkap (Tambah, Tampil, Ubah, Hapus dengan dialog konfirmasi) + Pencarian.
+- Validasi form (nama unik, harga > 0 format Rupiah, deskripsi maks. 100 karakter, stok porsi >= 0).
+- Switch status **Tersedia** langsung dari halaman daftar.
+- Filter kategori menggunakan **ChoiceChip** (Semua / Makanan / Minuman / Snack).
+- **AppBar** menampilkan jumlah menu tersedia secara reaktif, mis. `Menu (8/10)`.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshot
+*(Tambahkan screenshot halaman daftar, form tambah/edit, dan dialog hapus di sini)*
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Cara Menjalankan
+```bash
+flutter pub get
+flutter test
+flutter run
