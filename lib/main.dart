@@ -24,6 +24,10 @@ Future<void> main() async {
     await Hive.openBox<Menu>(HiveService.boxName);
   }
 
+  // 5. Muat data dummy jika box masih kosong
+  final hiveService = HiveService();
+  await hiveService.seedInitialData();
+
   runApp(const MyApp());
 }
 

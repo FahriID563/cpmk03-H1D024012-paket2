@@ -75,6 +75,17 @@ class MenuKafeController extends GetxController {
     menuList.assignAll(data);
   }
 
+  // ================= DATA DUMMY =================
+  Future<void> resetDummyData() async {
+    await _service.seedInitialData(force: true);
+    loadData();
+    Get.snackbar(
+      'Data Dummy',
+      'Data dummy berhasil dimuat ulang',
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+
   // ================= NAVIGASI KE FORM =================
   void openAddForm() {
     editingId = null;

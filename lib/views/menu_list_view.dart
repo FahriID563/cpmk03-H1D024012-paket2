@@ -15,6 +15,13 @@ class MenuListView extends GetView<MenuKafeController> {
           () => Text('Menu (${controller.jumlahTersedia}/${controller.totalMenu})'),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            tooltip: 'Muat Ulang Data Dummy',
+            icon: const Icon(Icons.refresh),
+            onPressed: controller.resetDummyData,
+          ),
+        ],
       ),
       body: Column(
         children: [
