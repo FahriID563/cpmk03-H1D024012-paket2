@@ -8,7 +8,7 @@ class HiveService {
   Box<Menu> get _box => Hive.box<Menu>(boxName);
 
   // READ
-  List<Menu> getAll() => _box.values.toList();
+  List<Menu> getAll() => _box.values.whereType<Menu>().toList();
 
   // CREATE (key = id menu)
   Future<void> create(Menu menu) => _box.put(menu.id, menu);
@@ -21,12 +21,13 @@ class HiveService {
 
   // SEED DUMMY DATA
   Future<void> seedInitialData({bool force = false}) async {
-    if (_box.isEmpty || force) {
-      if (force) {
+    final current = _box.values.whereType<Menu>().toList();
+    if (current.isEmpty || force) {
+      if (_box.isNotEmpty) {
         await _box.clear();
       }
-      final dummyMenus = [
-        Menu(
+      final Map<String, Menu> dummyEntries = {
+        '1': Menu(
           id: '1',
           nama: 'Es Kopi Susu Gula Aren',
           kategori: 'Minuman',
@@ -35,7 +36,7 @@ class HiveService {
           stokPorsi: 25,
           tersedia: true,
         ),
-        Menu(
+        '2': Menu(
           id: '2',
           nama: 'Matcha Latte',
           kategori: 'Minuman',
@@ -44,7 +45,7 @@ class HiveService {
           stokPorsi: 15,
           tersedia: true,
         ),
-        Menu(
+        '3': Menu(
           id: '3',
           nama: 'Americano Ice',
           kategori: 'Minuman',
@@ -53,7 +54,7 @@ class HiveService {
           stokPorsi: 0,
           tersedia: false,
         ),
-        Menu(
+        '4': Menu(
           id: '4',
           nama: 'Nasi Goreng Spesial',
           kategori: 'Makanan',
@@ -62,7 +63,7 @@ class HiveService {
           stokPorsi: 12,
           tersedia: true,
         ),
-        Menu(
+        '5': Menu(
           id: '5',
           nama: 'Spaghetti Bolognese',
           kategori: 'Makanan',
@@ -71,7 +72,7 @@ class HiveService {
           stokPorsi: 8,
           tersedia: true,
         ),
-        Menu(
+        '6': Menu(
           id: '6',
           nama: 'Croissant Butter',
           kategori: 'Snack',
@@ -80,7 +81,7 @@ class HiveService {
           stokPorsi: 10,
           tersedia: true,
         ),
-        Menu(
+        '7': Menu(
           id: '7',
           nama: 'Kentang Goreng Truffle',
           kategori: 'Snack',
@@ -89,11 +90,9 @@ class HiveService {
           stokPorsi: 0,
           tersedia: false,
         ),
-      ];
+      };
 
-      for (final menu in dummyMenus) {
-        await _box.put(menu.id, menu);
-      }
+      await _box.putAll(dummyEntries);
     }
   }
 }

@@ -66,6 +66,14 @@ class MenuKafeController extends GetxController {
   void onInit() {
     super.onInit();
     loadData();
+    if (menuList.isEmpty) {
+      _seedAndLoad();
+    }
+  }
+
+  Future<void> _seedAndLoad() async {
+    await _service.seedInitialData();
+    loadData();
   }
 
   // ================= READ =================

@@ -21,6 +21,7 @@ void main() {
     if (!Hive.isBoxOpen(HiveService.boxName)) {
       await Hive.openBox<Menu>(HiveService.boxName);
     }
+    await HiveService().seedInitialData();
   });
 
   tearDown(() async {
@@ -35,8 +36,8 @@ void main() {
     await tester.pumpWidget(const MyApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Menu (0/0)'), findsOneWidget);
-    expect(find.text('Belum ada data menu'), findsOneWidget);
+    expect(find.text('Menu (5/7)'), findsOneWidget);
+    expect(find.text('Es Kopi Susu Gula Aren'), findsOneWidget);
     expect(find.text('Tambah'), findsOneWidget);
   });
 

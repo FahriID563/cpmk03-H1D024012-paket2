@@ -68,8 +68,28 @@ class MenuListView extends GetView<MenuKafeController> {
             child: Obx(() {
               final data = controller.filteredList;
               if (data.isEmpty) {
-                return const Center(
-                  child: Text('Belum ada data menu'),
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.restaurant_menu,
+                        size: 64,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Belum ada data menu',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      const SizedBox(height: 16),
+                      FilledButton.icon(
+                        onPressed: controller.resetDummyData,
+                        icon: const Icon(Icons.download),
+                        label: const Text('Muat Data Dummy'),
+                      ),
+                    ],
+                  ),
                 );
               }
 
